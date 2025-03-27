@@ -66,7 +66,7 @@ class _FormPageState extends State<FormPage> {
     _selectedEtablissement =
         widget.studentToEdit?.etablissement ?? eteblissement[0];
     _selectedNiveau = widget.studentToEdit?.niveau ?? 'Licence 1';
-    _selectedStatut = widget.studentToEdit?.status ?? statut[0];
+    _selectedStatut = widget.studentToEdit?.status.trim() ?? statut[0];
   }
 
   void saveData() async {

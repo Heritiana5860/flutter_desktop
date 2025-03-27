@@ -56,144 +56,142 @@ class _DataTableWidgetState extends State<DataTableWidget> {
 
               final filteredMembers = snapshot.data!;
 
-              return DataTable(
-                columnSpacing: 24,
-                headingRowColor: MaterialStateProperty.all(Colors.grey[50]),
-                columns: const [
-                  DataColumn(
-                    label: Text(
-                      'Matricule',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  DataColumn(
-                    label: Text(
-                      'Nom',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  DataColumn(
-                    label: Text(
-                      'Prenom',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  DataColumn(
-                    label: Text(
-                      'Téléphone',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  DataColumn(
-                    label: Text(
-                      'Logement',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  DataColumn(
-                    label: Text(
-                      'Etablissement',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  DataColumn(
-                    label: Text(
-                      'Niveau',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  DataColumn(
-                    label: Text(
-                      'Promotion',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  DataColumn(
-                    label: Text(
-                      'Statut',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  DataColumn(
-                    label: Text(
-                      'Actions',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ],
-                rows: filteredMembers.map((member) {
-                  return DataRow(
-                    cells: [
-                      DataCell(Text(member.numero_matricule)),
-                      DataCell(Text(member.nom)),
-                      DataCell(Text(member.prenom)),
-                      DataCell(Text(member.contact)),
-                      DataCell(Text(member.logement)),
-                      DataCell(Text(member.etablissement)),
-                      DataCell(Text(member.niveau)),
-                      DataCell(Text(member.promotion)),
-                      DataCell(
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 8,
-                            vertical: 4,
-                          ),
-                          decoration: BoxDecoration(
-                            color: member.status == 'Doyen(ne)'
-                                ? Colors
-                                    .red[50]
-                                : member.status == 'Ancien(ne)'
-                                    ? Colors.blue[
-                                        50]
-                                    : member.status == 'Novice'
-                                        ? Colors.green[
-                                            50] 
-                                        : Colors
-                                            .grey[100], 
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          child: Text(
-                            member.status,
-                            style: TextStyle(
-                              color: member.status == 'Doyen(ne)'
-                                  ? Colors.red[
-                                      700] 
-                                  : member.status == 'Ancien(ne)'
-                                      ? Colors.blue[
-                                          700]
-                                      : member.status == 'Novice'
-                                          ? Colors.green[
-                                              700] 
-                                          : Colors
-                                              .grey[700],
-                              fontSize: 12,
-                            ),
-                          ),
+              return SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: DataTable(
+                    columnSpacing: 24,
+                    headingRowColor: MaterialStateProperty.all(Colors.grey[50]),
+                    columns: const [
+                      DataColumn(
+                        label: Text(
+                          'Matricule',
+                          style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
-                      DataCell(
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            IconButton(
-                              icon: const Icon(Icons.edit,
-                                  color: Colors.blue, size: 20),
-                              onPressed: () {
-                                widget.onEditRequest(member);
-                              },
-                            ),
-                            IconButton(
-                              icon: const Icon(Icons.delete,
-                                  color: Colors.red, size: 20),
-                              onPressed: () =>
-                                  _showDeleteConfirmation(context, member),
-                            ),
-                          ],
+                      DataColumn(
+                        label: Text(
+                          'Nom',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      DataColumn(
+                        label: Text(
+                          'Prenom',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      DataColumn(
+                        label: Text(
+                          'Téléphone',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      DataColumn(
+                        label: Text(
+                          'Logement',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      DataColumn(
+                        label: Text(
+                          'Etablissement',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      DataColumn(
+                        label: Text(
+                          'Niveau',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      DataColumn(
+                        label: Text(
+                          'Promotion',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      DataColumn(
+                        label: Text(
+                          'Statut',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      DataColumn(
+                        label: Text(
+                          'Actions',
+                          style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
                     ],
-                  );
-                }).toList(),
+                    rows: filteredMembers.map((member) {
+                      return DataRow(
+                        cells: [
+                          DataCell(Text(member.numero_matricule)),
+                          DataCell(Text(member.nom)),
+                          DataCell(Text(member.prenom)),
+                          DataCell(Text(member.contact)),
+                          DataCell(Text(member.logement)),
+                          DataCell(Text(member.etablissement)),
+                          DataCell(Text(member.niveau)),
+                          DataCell(Text(member.promotion)),
+                          DataCell(
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 4,
+                              ),
+                              decoration: BoxDecoration(
+                                color: member.status.trimRight() == 'Doyen(ne)'
+                                    ? Colors.red[50]
+                                    : member.status.trimRight() == 'Ancien(ne)'
+                                        ? Colors.blue[50]
+                                        : member.status.trimRight() == 'Novice'
+                                            ? Colors.green[50]
+                                            : Colors.grey[100],
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              child: Text(
+                                member.status,
+                                style: TextStyle(
+                                  color: member.status.trimRight() == 'Doyen(ne)'
+                                      ? Colors.red[700]
+                                      : member.status.trimRight() == 'Ancien(ne)'
+                                          ? Colors.blue[700]
+                                          : member.status.trimRight() == 'Novice'
+                                              ? Colors.green[700]
+                                              : Colors.grey[700],
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ),
+                          ),
+                          DataCell(
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                IconButton(
+                                  icon: const Icon(Icons.edit,
+                                      color: Colors.blue, size: 20),
+                                  onPressed: () {
+                                    widget.onEditRequest(member);
+                                  },
+                                ),
+                                IconButton(
+                                  icon: const Icon(Icons.delete,
+                                      color: Colors.red, size: 20),
+                                  onPressed: () =>
+                                      _showDeleteConfirmation(context, member),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      );
+                    }).toList(),
+                  ),
+                ),
               );
             },
           ),

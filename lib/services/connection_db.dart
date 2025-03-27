@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -28,6 +29,34 @@ class ApiService {
       };
     } else {
       throw Exception('Échec du chargement des données');
+    }
+  }
+
+  // Récupérer une donnée
+  Future<DataModels> getData(String numeroMatricule) async {
+    try {
+      final response = await http
+          .get(Uri.parse('$baseUrl?numero_matricule=$numeroMatricule'));
+
+      if (response.statusCode == 200) {
+        final jsonResponse = json.decode(response.body);
+
+        // Vérification supplémentaire
+        if (jsonResponse == null) {
+          throw Exception('Étudiant non trouvé');
+        }
+
+        return DataModels.fromJson(jsonResponse);
+      } else if (response.statusCode == 404) {
+        // Gestion explicite de l'erreur 404
+        final errorResponse = json.decode(response.body);
+        throw Exception(errorResponse['error'] ?? 'Étudiant non trouvé');
+      } else {
+        throw Exception('Erreur de connexion au serveur');
+      }
+    } catch (e) {
+      debugPrint('Erreur lors de la récupération des données: $e');
+      rethrow;
     }
   }
 

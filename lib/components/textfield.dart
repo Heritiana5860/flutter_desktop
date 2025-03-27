@@ -11,6 +11,7 @@ class MyTextfield extends StatefulWidget {
     this.validator,
     this.focusNode,
     this.nextFocus,
+    this.onChanged,
   });
 
   final String hintText;
@@ -21,6 +22,7 @@ class MyTextfield extends StatefulWidget {
   final String? Function(String?)? validator;
   final FocusNode? focusNode;
   final FocusNode? nextFocus;
+  final Function(String)? onChanged;
 
   @override
   State<MyTextfield> createState() => _MyTextfieldState();
@@ -64,6 +66,7 @@ class _MyTextfieldState extends State<MyTextfield> {
                       keyboardType: widget.keyboardType,
                       validator: widget.validator,
                       focusNode: widget.focusNode,
+                      onChanged: widget.onChanged,
                       onFieldSubmitted: (_) {
                         if (widget.nextFocus != null) {
                           FocusScope.of(context).requestFocus(widget.nextFocus);

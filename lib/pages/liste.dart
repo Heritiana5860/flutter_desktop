@@ -50,12 +50,11 @@ class _MembersListState extends State<MembersList> {
       return member.nom.toLowerCase().contains(_searchQuery.toLowerCase()) ||
           member.prenom.toLowerCase().contains(_searchQuery.toLowerCase()) ||
           member.contact.contains(_searchQuery) ||
-          member.logement.contains(_searchQuery) ||
+          member.logement.toLowerCase().contains(_searchQuery) ||
           member.promotion.contains(_searchQuery) ||
-          member.etablissement.contains(_searchQuery) ||
-          member.niveau.contains(_searchQuery) ||
-          member.contact.contains(_searchQuery) ||
-          member.status.contains(_searchQuery) ||
+          member.etablissement.toLowerCase().contains(_searchQuery) ||
+          member.niveau.toLowerCase().contains(_searchQuery) ||
+          member.status.toLowerCase().contains(_searchQuery) ||
           member.numero_matricule.contains(_searchQuery);
     }).toList();
   }
@@ -124,40 +123,46 @@ class _MembersListState extends State<MembersList> {
         pw.MultiPage(
           pageFormat: PdfPageFormat.a4.landscape,
           margin: const pw.EdgeInsets.all(32),
-          header: (context) => pw.Container(
-            margin: const pw.EdgeInsets.only(bottom: 20),
-            child: pw.Column(
-              crossAxisAlignment: pw.CrossAxisAlignment.start,
-              children: [
-                pw.Text(
-                  'Association des Etudiants 7 Vinagny',
-                  style: pw.TextStyle(
-                    fontSize: 14,
-                    fontWeight: pw.FontWeight.bold,
-                    color: PdfColors.blue800,
-                  ),
+          // L'en-tête n'apparaît qu'une fois sur la première page
+          header: (context) {
+            if (context.pageNumber == 1) {
+              return pw.Container(
+                margin: const pw.EdgeInsets.only(bottom: 20),
+                child: pw.Column(
+                  crossAxisAlignment: pw.CrossAxisAlignment.start,
+                  children: [
+                    pw.Text(
+                      'Association des Etudiants 7 Vinagny',
+                      style: pw.TextStyle(
+                        fontSize: 14,
+                        fontWeight: pw.FontWeight.bold,
+                        color: PdfColors.blue800,
+                      ),
+                    ),
+                    pw.Text(
+                      'Liste des Membres',
+                      style: pw.TextStyle(
+                        fontSize: 14,
+                        fontWeight: pw.FontWeight.bold,
+                        color: PdfColors.blue800,
+                      ),
+                    ),
+                    pw.Text(
+                      'Total: ${members.length} membres',
+                      style: const pw.TextStyle(fontSize: 12),
+                    ),
+                    pw.Text(
+                      'Fait le: ${DateTime.now().toString().split('.')[0]}',
+                      style: const pw.TextStyle(fontSize: 12),
+                    ),
+                    pw.SizedBox(height: 10),
+                    pw.Divider(),
+                  ],
                 ),
-                pw.Text(
-                  'Liste des Membres',
-                  style: pw.TextStyle(
-                    fontSize: 14,
-                    fontWeight: pw.FontWeight.bold,
-                    color: PdfColors.blue800,
-                  ),
-                ),
-                pw.Text(
-                  'Total: ${members.length} membres',
-                  style: const pw.TextStyle(fontSize: 12),
-                ),
-                pw.Text(
-                  'Fait le: ${DateTime.now().toString().split('.')[0]}',
-                  style: const pw.TextStyle(fontSize: 12),
-                ),
-                pw.SizedBox(height: 10),
-                pw.Divider(),
-              ],
-            ),
-          ),
+              );
+            }
+            return pw.Container();
+          },
           footer: (context) => pw.Container(
             alignment: pw.Alignment.center,
             margin: const pw.EdgeInsets.only(top: 10),
@@ -339,7 +344,7 @@ class _MembersListState extends State<MembersList> {
     } catch (e) {
       debugPrint('Erreur export PDF: $e');
       if (!context.mounted) return;
-      Navigator.pop(context); // Ferme le dialogue de chargement en cas d'erreur
+      Navigator.pop(context);
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Erreur lors de la génération du PDF: $e')),
@@ -438,16 +443,6 @@ class _MembersListState extends State<MembersList> {
           case 'pdf_filtered':
             _exportToPDF(context, filteredOnly: true);
             break;
-          case 'doc_all':
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Export DOC non encore implémenté')),
-            );
-            break;
-          case 'doc_filtered':
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Export DOC non encore implémenté')),
-            );
-            break;
         }
       },
       child: Container(
@@ -492,32 +487,6 @@ class _MembersListState extends State<MembersList> {
               SizedBox(width: 8),
               Text(
                 'Exporter les résultats filtrés en PDF',
-                style: TextStyle(fontSize: 13.0),
-              ),
-            ],
-          ),
-        ),
-        const PopupMenuItem(
-          value: 'doc_all',
-          child: Row(
-            children: [
-              Icon(Icons.description),
-              SizedBox(width: 8),
-              Text(
-                'Exporter tout en DOC',
-                style: TextStyle(fontSize: 13.0),
-              ),
-            ],
-          ),
-        ),
-        const PopupMenuItem(
-          value: 'doc_filtered',
-          child: Row(
-            children: [
-              Icon(Icons.filter_list),
-              SizedBox(width: 8),
-              Text(
-                'Exporter les résultats filtrés en DOC',
                 style: TextStyle(fontSize: 13.0),
               ),
             ],

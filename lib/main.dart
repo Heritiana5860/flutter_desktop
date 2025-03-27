@@ -3,6 +3,7 @@ import 'package:tragnambo/pages/dashboard.dart';
 import 'package:tragnambo/pages/form_page.dart';
 import 'package:tragnambo/pages/liste.dart';
 import 'package:tragnambo/pages/login.dart';
+import 'package:tragnambo/pages/parametre.dart';
 import 'package:tragnambo/pages/statistic/statistique_page.dart';
 
 void main() {
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
         "/formpage": (context) => FormPage(),
         "/liste": (context) => MembersList(),
         "/stats": (context) => StatisticsPage(),
+        "/settings": (context) => MembreCardGenerator(),
       },
     );
   }

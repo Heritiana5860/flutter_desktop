@@ -180,10 +180,10 @@ class _StatisticsPageState extends State<StatisticsPage> {
                             const SizedBox(height: 16),
                             BuildStatCard(
                                 title: 'Membres actifs',
-                                value: '289',
+                                value: '150',
                                 icon: Icons.directions_run,
                                 color: Colors.purple[700]!,
-                                subtitle: '81% du total'),
+                                subtitle: '54% du total'),
                           ],
                         );
                       } else {
@@ -247,10 +247,10 @@ class _StatisticsPageState extends State<StatisticsPage> {
                                 Expanded(
                                   child: BuildStatCard(
                                       title: 'Membres actifs',
-                                      value: '289',
+                                      value: '150',
                                       icon: Icons.directions_run,
                                       color: Colors.purple[700]!,
-                                      subtitle: '81% du total'),
+                                      subtitle: '54% du total'),
                                 ),
                               ],
                             ),

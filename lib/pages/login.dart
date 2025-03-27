@@ -11,6 +11,9 @@ class _SignInScreenState extends State<SignInScreen> {
   final _formKey = GlobalKey<FormState>();
   bool _obscurePassword = true;
 
+  final username = TextEditingController();
+  final password = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,10 +74,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Image.network(
-                          "https://i.postimg.cc/nz0YBQcH/Logo-light.png",
-                          height: 80,
-                        ),
+                        Image.asset("assets/images/logo.jpg", height: 120),
                         const SizedBox(height: 40),
                         const Text(
                           "Connexion",
@@ -86,6 +86,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         ),
                         const SizedBox(height: 40),
                         TextFormField(
+                          controller: username,
                           decoration: InputDecoration(
                             labelText: "Nom d'utilisateur",
                             prefixIcon: const Icon(Icons.person_outline),
@@ -101,6 +102,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         ),
                         const SizedBox(height: 24),
                         TextFormField(
+                          controller: password,
                           obscureText: _obscurePassword,
                           decoration: InputDecoration(
                             labelText: "Mot de passe",
@@ -145,11 +147,20 @@ class _SignInScreenState extends State<SignInScreen> {
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
                               _formKey.currentState!.save();
-                              Navigator.pushNamed(context, "/dashboard");
+                              if(username.text == "admin" && password.text == "Tr@gnamb0") {
+                                Navigator.pushNamed(context, "/dashboard");
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("Nom d'utilisateur ou mot de passe incorrect"),
+                                    backgroundColor: Colors.red,
+                                  ),
+                                );
+                              }
                             }
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFF00BF6D),
+                            backgroundColor: Colors.blue,
                             foregroundColor: Colors.white,
                             padding: const EdgeInsets.symmetric(vertical: 16),
                             shape: RoundedRectangleBorder(
@@ -177,7 +188,7 @@ class _SignInScreenState extends State<SignInScreen> {
                               child: const Text(
                                 "S'inscrire",
                                 style: TextStyle(
-                                  color: Color(0xFF00BF6D),
+                                  color: Colors.blue,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),

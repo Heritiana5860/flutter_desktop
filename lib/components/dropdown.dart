@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 class CustomDropdown extends StatefulWidget {
   final List<String> options;
-  final String initialValue;
+  final String? initialValue;
   final void Function(String)? onChanged;
   final String? label;
 
   const CustomDropdown({
     super.key,
     required this.options,
-    required this.initialValue,
+    this.initialValue,
     this.onChanged,
     this.label,
   });
@@ -19,13 +19,16 @@ class CustomDropdown extends StatefulWidget {
 }
 
 class _CustomDropdownState extends State<CustomDropdown> {
-  late String dropdownValue;
+  late String? dropdownValue;
   bool isHovered = false;
 
   @override
   void initState() {
     super.initState();
-    dropdownValue = widget.initialValue;
+    // Ensure initial value is in options, otherwise use first option
+    dropdownValue = widget.options.contains(widget.initialValue)
+        ? widget.initialValue
+        : (widget.options.isNotEmpty ? widget.options.first : null);
   }
 
   @override
@@ -80,12 +83,17 @@ class _CustomDropdownState extends State<CustomDropdown> {
                     child: DropdownButtonHideUnderline(
                       child: DropdownButton<String>(
                         value: dropdownValue,
-                        onChanged: (String? value) {
-                          if (value != null) {
-                            setState(() => dropdownValue = value);
-                            widget.onChanged?.call(value);
-                          }
-                        },
+                        hint: widget.options.isEmpty
+                            ? const Text('No options')
+                            : null,
+                        onChanged: widget.options.isEmpty
+                            ? null
+                            : (String? value) {
+                                if (value != null) {
+                                  setState(() => dropdownValue = value);
+                                  widget.onChanged?.call(value);
+                                }
+                              },
                         items: widget.options
                             .map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
